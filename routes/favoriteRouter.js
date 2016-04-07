@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var Verify = require('./verify');
-var Leaders = require('../models/leadership');
+var Favorites = require('../models/favorites');
 
 var favoriteRouter = express.Router();
 favoriteRouter.use(bodyParser.json());
@@ -25,7 +25,7 @@ favoriteRouter.route('/')
         res.writeHead(200, {
             'Content-Type': 'text/plain'
         });
-        res.end('Added the Leader with id: ' + id);
+        res.end('Added the favorite with id: ' + id);
     });
 })
 
@@ -44,4 +44,4 @@ favoriteRouter.route('/:dishId')
     });
 });
 
-module.exports = leaderRouter;
+module.exports = favoriteRouter;
