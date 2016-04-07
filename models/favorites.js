@@ -4,28 +4,20 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var favoriteSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true
+    updatedAt: {
+        type: Date
     },
-    image: {
-        type: String,
-        required: true,
-        unique: true
+    createdAt: {
+        type: Date
     },
-    designation: {
-        type: String,
-        required: true
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
     },
-    abbr: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    }
+    dishes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Dish'
+    }],
 }, {
     timestamps: true
 });
