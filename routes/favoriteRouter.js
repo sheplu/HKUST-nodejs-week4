@@ -35,8 +35,6 @@ favoriteRouter.route('/')
         });
       }
       else {
-        //console.log(fav[0].dishes);
-
         fav[0].dishes.push(req.body.id);
         fav[0].save(function (err, favo) {
             if (err) throw err;
@@ -46,23 +44,28 @@ favoriteRouter.route('/')
 
       }
     });
-    /*
-
-    */
 })
 
-.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
-    Leaders.remove({}, function (err, resp) {
+.delete(Verify.verifyOrdinaryUser, function (req, res, next) {
+    Favorites.remove({"postedBy": req.decoded._doc._id}, function (err, resp) {
         if (err) throw err;
         res.json(resp);
     });
 });
 
-favoriteRouter.route('/:dishId')
+favoriteRouter.route('/:favId')
 .delete(Verify.verifyOrdinaryUser, function (req, res, next) {
-    Leaders.findById(req.params.LeaderId, function (err, leader) {
+    Favorites.find({"postedBy": req.decoded._doc._id})
+    .exec(function (err, fav) {
         if (err) throw err;
-        res.json(leader);
+        var tmp = fav[0].dishes.indexOf(req.params.favId);
+        console.log(tmp);
+        fav[0].dishes.splice(tmp, 1);
+        fav[0].save(function (err, favo) {
+            if (err) throw err;
+            console.log('delete fav!');
+            res.json(favo);
+        });
     });
 });
 
