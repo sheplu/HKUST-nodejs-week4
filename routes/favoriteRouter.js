@@ -35,13 +35,19 @@ favoriteRouter.route('/')
         });
       }
       else {
-        fav[0].dishes.push(req.body.id);
-        fav[0].save(function (err, favo) {
-            if (err) throw err;
-            console.log('Updated fav!');
-            res.json(favo);
-        });
-
+        var tmp = fav[0].dishes.indexOf(req.body.id);
+        if (tmp >= 0) {
+          console.log("dup");
+          res.json(fav)
+        }
+        else {
+          fav[0].dishes.push(req.body.id);
+          fav[0].save(function (err, favo) {
+              if (err) throw err;
+              console.log('Updated fav!');
+              res.json(favo);
+          });
+        }
       }
     });
 })
